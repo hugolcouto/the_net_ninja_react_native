@@ -1,0 +1,1 @@
+export { TextComponentMock } from './TextComponentMock';
