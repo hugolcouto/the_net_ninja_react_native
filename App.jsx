@@ -2,10 +2,8 @@ import React from 'react';
 import {
 	SafeAreaView,
 	StatusBar,
-	StyleSheet,
-	Text,
 } from 'react-native';
-import { TextComponentMock } from '~/components';
+import { TextComponentMock } from './src/components'
 
 const App = () => {
 	return (
