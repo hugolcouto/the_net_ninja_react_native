@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {
 	Button,
+	FlatList,
 	SafeAreaView,
+	ScrollView,
 	StatusBar,
 	StyleSheet,
 	Text,
@@ -10,26 +12,33 @@ import {
 } from 'react-native';
 
 const App = () => {
-	const [name, setName] = useState();
+	let list = [];
 
-	const buttonHandler = () => {
-
+	for (let index = 0; index < 40; index++) {
+		list.push({
+			name: `Item ${index}`,
+			id: `id-${index}`
+		});
 	}
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<Text style={styles.title} >Digite seu nome</Text>
-			<Text style={styles.title} >{name}</Text>
-			<TextInput
-				style={styles.textInput}
-				placeholder="Digite seu nome"
-				onChangeText={value => setName(value)}
-				value={name}
-				keyboardType="email-address"
+			<FlatList
+				numColumns={2}
+				data={list}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => (
+					<Text style={styles.listItem}>name: {item.name}</Text>
+				)}
 			/>
-			<View>
-				<Button title='Click me' color="#00b894" onPress={buttonHandler} />
-			</View>
+			{/* <ScrollView>
+				{list.map((i, index) => (
+					<View key={`item-${index}`} style={styles.listItem}>
+						<Text>name: {i.name}</Text>
+						<Text>Age: {i.age}</Text>
+					</View>
+				))}
+			</ScrollView> */}
 		</SafeAreaView>
 	);
 };
@@ -37,20 +46,19 @@ const App = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#ced1ce'
+		backgroundColor: '#ced1ce',
+		padding: 20,
+		// alignItems: 'center',
+		// justifyContent: 'center',
 	},
-	title: {
-		fontSize: 50,
-		marginBottom: 20,
-	},
-	textInput: {
-		borderBottomWidth: 1,
-		borderBottomColor: '#00b894',
-		marginBottom: 20,
-		paddingBottom: 0,
-		width: '90%'
+	listItem: {
+		backgroundColor: "#00b894",
+		paddingVertical: 10,
+		paddingHorizontal: 15,
+		marginBottom: 10,
+		marginRight: 10,
+		fontSize: 20,
+		width: '50%',
 	}
 })
 
