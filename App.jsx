@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	FlatList,
@@ -8,17 +8,26 @@ import {
 	StyleSheet,
 	Text,
 	TextInput,
+	TouchableOpacity,
 	View,
 } from 'react-native';
 
 const App = () => {
-	let list = [];
+	const [list, setList] = useState([])
 
-	for (let index = 0; index < 40; index++) {
-		list.push({
-			name: `Item ${index}`,
-			id: `id-${index}`
-		});
+	useEffect(() => {
+		let nList = []
+		for (let index = 0; index < 40; index++) {
+			nList.push({
+				name: `Item novo ${index}`,
+				id: `id-${index}`
+			});
+		}
+		setList(nList)
+	}, [])
+
+	const pressHandler = id => {
+		setList(list.filter(item => item.id !== id));
 	}
 
 	return (
@@ -28,17 +37,14 @@ const App = () => {
 				data={list}
 				keyExtractor={(item) => item.id}
 				renderItem={({ item }) => (
-					<Text style={styles.listItem}>name: {item.name}</Text>
+					<TouchableOpacity
+						onPress={() => pressHandler(item.id)}
+						style={styles.listItem}
+					>
+						<Text>name: {item.name}</Text>
+					</TouchableOpacity>
 				)}
 			/>
-			{/* <ScrollView>
-				{list.map((i, index) => (
-					<View key={`item-${index}`} style={styles.listItem}>
-						<Text>name: {i.name}</Text>
-						<Text>Age: {i.age}</Text>
-					</View>
-				))}
-			</ScrollView> */}
 		</SafeAreaView>
 	);
 };
@@ -48,8 +54,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#ced1ce',
 		padding: 20,
-		// alignItems: 'center',
-		// justifyContent: 'center',
 	},
 	listItem: {
 		backgroundColor: "#00b894",
